@@ -18,5 +18,17 @@ module.exports={
       else
         res.json(usersdata);
     });
+   },
+
+   userLogin:function(req,res){
+    Users.findOne({'UserID':''+req.body.UserID+'','Password':''+req.body.Password+''},{_id:0},function(err,usersdata){
+      if(err)
+        res.send(404,err);
+      if(!usersdata){
+        res.json({success:false,message:'Authentication failed. User not found.'});
+      }else if(usersdata){
+        res.json({success:true,message:'valid User'});
+      }
+    });
    }
 }

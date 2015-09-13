@@ -1,0 +1,1 @@
+var MyStuffApp=angular.module('MyStuffApp',[]);

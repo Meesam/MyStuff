@@ -1,0 +1,397 @@
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+/*Custom*/
+body{
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+    /*height: 5000px;  Temp: Simulates a tall page. */
+    font-size: 13px;
+}
+.canvas {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /*    -webkit-transform: translateX(0);
+        transform: translateX(0);*/
+    /*    -webkit-transition: .3s ease all;
+        transition: .3s ease all;*/
+}
+body.show-left-nav .canvas {
+    -webkit-transform: translateX(250px);
+    transform: translateX(250px);
+    /*width: 80% !important;*/
+}
+body.show-right-nav .canvas {
+    /*    -webkit-transform: translateX(-250px);
+        transform: translateX(-250px);*/
+    margin-left: -250px;
+    /*width: 80% !important;*/
+}
+.navbar{
+    margin-bottom: 0px;
+}
+.navbar-collapse{
+    float: left;
+}
+.navbar-nav .glyphicon{
+    font-size: 18px;
+}
+.canvas .container{
+    display: table;
+}
+.container{
+    padding: 0px 10px;
+    width: auto;
+    background: #f6f6f6;
+    margin-top: 50px;
+}
+.container .jumbotron.cover-photo{
+    padding: 0px;
+    background: #fff;
+    margin: 0px;
+    max-height: 325px;
+    overflow: hidden;
+    position: relative;
+}
+.container .jumbotron img{
+    width: 100%;
+}
+.jumbotron h1, .jumbotron .h1{
+    margin-top: 10px;
+}
+.jumbotron p{
+    margin-bottom: 0px;
+}
+.sm-posts{
+    margin-top: 10px;
+    display: table;
+}
+.sm-posts .glyphicon{
+    color: #fff;
+    text-decoration: none;
+}
+.sm-left-side.col-md-9{
+    width: 80%;
+}
+.sm-left-side, .sm-right-side{
+    padding: 0px;
+    padding-top: 10px;
+    float: none;
+    display: table-cell;
+    vertical-align: top;
+}
+.sm-right-side.col-md-3{
+    padding-right: 0px;
+    padding-left: 10px;
+    width: 20%;
+    min-width: 240px;
+}
+.panel-body{
+    background: #fff;
+    border-bottom: 1px solid #efefef;
+}
+.sm-posts .sm-posts-odd{
+    padding-right: 10px;
+    width: 22%;
+    /*min-width: 230px;*/
+}
+.sm-posts .sm-posts-odd, .sm-posts .sm-posts-even{
+    display: table-cell;
+    vertical-align: top;
+}
+.sm-posts-even .panel{
+    border-radius: 0px;
+    border: 0px;
+}
+.sm-posts .panel-default .panel-heading{
+    color: #fff;
+    background-color: #428bca;
+    border: 0px;
+    border-radius: 0px;
+    min-height: 45px;
+    width: 95%;
+    padding: 5px 9px;
+    vertical-align: top;
+}
+.sm-posts .sm-posts-odd .col-md-12, .sm-posts .sm-posts-even .col-md-12{
+    padding: 0px;
+    position: inherit;
+}
+.sm-posts .sm-posts-odd .panel, .sm-posts .sm-posts-even .panel, .sm-right-side.col-md-3 .panel{
+    margin-bottom: 10px;
+}
+.sm-posts .panel-header .panel-pic{
+    height: 100%;
+    background: #fff;
+    float: left;
+}
+.sm-posts .panel-header{
+    display: table;
+    width: 100%;
+}
+.sm-posts .panel-header .panel-pic, .sm-posts .panel-header .panel-heading{
+    display: table-cell;
+}
+.sm-posts .panel-header .panel-heading .dropdown{
+    float: right;
+}
+.sm-posts .panel-header .panel-heading .panel-title{
+    width: 80%;
+    float: left;
+}
+.sm-posts .panel-header .panel-heading .panel-title .posted-on{
+    padding-top: 4px;
+    font-size: 13px;
+}
+.panel-title{
+    font-size: 14px;
+}
+#left-sidebar, #right-sidebar{
+    /*background: -webkit-linear-gradient(#fff, #fff);*/
+    background: #fff;
+}
+#left-sidebar {
+    width: 250px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: -250px;
+    border-right: 1px solid #ddd;
+    padding: 15px;
+}
+#right-sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: -250px;
+    border-left: 1px solid #ddd;
+    padding: 15px;
+}
+body.show-right-nav #right-sidebar{
+    right: 0px;
+    top: 50px;
+}
+#right-sidebar .list-group{
+    overflow-y: scroll;
+    max-height: 328px;
+    margin-bottom: 0px;
+}
+#right-sidebar .list-group-item{
+    padding: 5px;
+    font-size: 12px;
+}
+#right-sidebar .list-group-item img{
+    width: 35px;
+    padding-right: 5px;
+}    
+.sm-right{
+    float: right !important;
+}
+.sm-posts-list, .sm-posts-comment{
+    background: #F9F9F9;
+    border-bottom: 1px solid #efefef;
+    padding: 0px;
+    width: 100%;
+    float: left;
+}
+.sm-post-statistics{
+    padding: 6px 10px;
+}
+.sm-post-statistics span{
+    font-size: 12px;
+    color: #A29F9F;
+    padding-right: 10px;
+}
+.sm-posts-list ul{
+    list-style-type: none;
+    padding: 0px;
+}
+.sm-posts-list li .sm-user-pick{
+    float: left;
+    margin-right: 10px;
+
+}
+.sm-posts-list li{
+    float: left;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #efefef;
+}
+.sm-posts-list ul li:last-child{
+    margin-bottom: 0px;
+}
+.sm-post-comment-block strong{
+    display: inline-block;
+    width: 79%;
+}
+.sm-post-comment-block .posted-on{
+    font-size: 12px;
+    color: #A39F9F;
+    font-weight: normal;
+    display: inline;
+    padding-left: 8px;
+}
+.sm-post-comment-block .sm-posts-comment{
+
+}
+.sm-posts-comment #sm-update-status {
+    height: 35px;
+    border: 0px;
+    outline: 0px;
+    width: 100%;
+    padding: 0px 7px;
+}
+.navbar .container{
+    background: #fff;
+    margin-top: 0px;
+}
+.navbar-nav li.search{
+    width: 282px;
+}
+.navbar-nav li.search .form-control{
+    height: 50px;
+    box-shadow: none;
+    border: 0px;
+}
+.navbar-nav.sm-main-menu{
+    position: absolute;
+    bottom: 0px;
+    float: none;
+    margin-left: 0px;
+    background: rgba(0,0,0,0.24);
+    width: 100%;
+}
+.navbar-nav.sm-main-menu li{
+    float: left;
+}
+.navbar-nav.sm-main-menu li a{
+    color: #fff;
+}
+.nav.sm-main-menu>li>a:hover, .nav.sm-main-menu>li>a:focus{
+    background: rgba(0,0,0,0.54);
+}
+.sm-right-side .panel-default .sm-profile-pic{
+    text-align: center;
+    padding: 4px;
+}
+.btn-group.col-lg-12{
+    padding: 0px;
+    width: 100%;
+}
+.btn-group.col-lg-12 .dropdown-menu{
+    width: 100%;
+}
+#right-sidebar{
+    padding: 0px;
+}
+#right-sidebar .list-group-item{
+    border-radius: 0px;
+}
+.list-group-item{
+    font-size: 13px;
+}
+.sm-red{
+    color: #ac2925 !important;
+}
+.navbar-default .navbar-nav>li{
+    border-right: 1px solid #ddd;
+}
+.navbar-default .navbar-nav>li:first-child{
+    border-left: 1px solid #ddd;
+}
+.navbar-default .navbar-nav>li:last-child{
+    border-left: 0px;
+}
+.sm-yellow{
+    color: #ffe45c !important;
+}
+.sm-testimonial-text, .sm-testimonial-by, .sm-ad-details{
+    font-size: 13px;
+}
+.sm-testimonial-by{
+    text-align: right;
+}
+.sm-ads{
+    padding: 5px;
+}
+.sm-ads .sm-ads-pic{
+    text-align: center;
+    padding-bottom: 5px;
+}
+@media (max-width: 991px){
+    .btn-group .col-md-12{
+        width: 100%;
+    }
+}
+@media (max-width: 767px){
+    .navbar-nav .open .dropdown-menu{
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-top: 0px;
+    }
+    .container>.navbar-header, .container-fluid>.navbar-header{
+        margin-left: 0px;
+        margin-right: 0px;
+        float: left;
+    }
+    .navbar-nav{
+        margin: 0px;
+    }
+    .navbar-nav>li>a {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    .navbar-default .navbar-nav>li{
+        float: left;
+    }
+    .sm-posts .sm-posts-odd, .sm-posts .sm-posts-even{
+        display: block;
+        width: 100%;
+    }
+    .sm-left-side, .sm-right-side{
+        display: block;
+    }
+    .sm-left-side.col-md-9{
+        width: 100%;
+    }
+    .sm-right-side.col-md-3{
+        width: 100%;
+    }
+    .sm-posts .sm-posts-odd{
+        padding: 0px;
+    }
+    .sm-right-side.col-md-3{
+        padding-left: 0px;
+    }
+}
+@media (max-width: 600px){
+    .navbar-nav li.search{
+        font-size: 11px;
+    }
+    .navbar-collapse{
+        float: none;
+    }
+    .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse{
+        border-bottom: 1px solid #e7e7e7;
+    }
+    .navbar-nav li.search .form-control{
+        font-size: 13px;
+    }
+    .navbar-default .navbar-nav>li{
+        
+    }
+    .canvas .container{
+        margin-top: 102px;
+    }
+}
+@media(max-width: 500px){
+    .navbar-nav li.search{
+        width: 242px;
+    }
+}

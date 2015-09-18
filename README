@@ -1,1 +1,213 @@
-This is mystuff repo.
+//server.js//
+// config application
+var express=require("express");
+var app=express();
+var morgan=require("morgan");
+var bodyParser=require("body-parser");
+var methodOverride=require("method-override");
+var dbmiddleware=require("./middleware/dbconnectionmiddlware");
+var authmiddleware=require("./middleware/authenticationmiddleware");
+var expressJwt = require('express-jwt');
+var jwt = require('jsonwebtoken');
+
+var secret = '12356';
+// user middleware
+app.use(express.static('./public'));
+app.use(bodyParser.urlencoded({'extended':'true'})); 			
+//app.use('/userapi', expressJwt({secret: secret}));
+app.use(bodyParser.json()); 									
+app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
+app.use(methodOverride());
+
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+    next();
+});
+
+// use custom database middleware
+app.use(dbmiddleware.dbconnection);
+
+
+// configure routing
+require('./routes/Userroutes')(app);
+
+app.use(authmiddleware.ensureAuthorized);
+
+
+// set index page on root
+app.get('*', function(req, res) {    
+    res.sendfile('./public/index.html');
+ });
+
+// start server to listen the request
+app.listen(8080);
+console.log("server is running at http://localhost:8080");
+
+//authenticationmiddleware.js //
+module.exports={
+   ensureAuthorized:function(req, res, next) {
+    var bearerToken;
+    var bearerHeader = req.headers["authorization"];
+    if (typeof bearerHeader !== 'undefined') {
+        var bearer = bearerHeader.split(" ");
+        bearerToken = bearer[1];
+        req.token = bearerToken;
+        next();
+    } else {
+        res.send(403);
+    }
+  },
+}
+
+// Usermoduleapi.js//
+var mongoose=require('mongoose');
+var Users=require('../models/Users');
+var expressJwt = require('express-jwt');
+var jwt = require('jsonwebtoken');
+
+function url_base64_decode(s) {
+  var e = {}, i, k, v = [], r = '', w = String.fromCharCode;
+    var n = [[65, 91], [97, 123], [48, 58], [43, 44], [47, 48]];
+    for (z in n){
+        for (i = n[z][0]; i < n[z][1]; i++)
+        {
+            v.push(w(i));
+        }
+    }
+    for (i = 0; i < 64; i++){
+        e[v[i]] = i;
+    }
+    for (i = 0; i < s.length; i+=72){
+        var b = 0, c, x, l = 0, o = s.substring(i, i+72);
+        for (x = 0; x < o.length; x++) {
+            c = e[o.charAt(x)];
+            b = (b << 6) + c;
+            l += 6;
+            while (l >= 8){
+                r += w((b >>> (l -= 8)) % 256);
+            }
+         }
+    }
+    return r;
+}  
+
+module.exports={
+
+	getAllUser:function(req,res){
+     Users.find({},{_id:0},function(err,usersdata){
+     	if(err)
+     		res.send(404,err);
+     	else
+     		res.json(usersdata);
+     });
+   },
+
+   findUser:function(req,res){
+   	Users.findOne({'ID' :''+req.params.ID+''},{_id:0},function(err,usersdata){
+      if(err)
+        res.send(404,err);
+      else
+        res.json(usersdata);
+    });
+   },
+
+   userLogin:function(req,res){
+    var secret = '12356';
+    Users.findOne({'UserID':''+req.body.UserID+'','Password':''+req.body.Password+''},{_id:0},function(err,usersdata){
+      if(err)
+        res.send(404,err);
+      if(!usersdata){
+        res.json({success:false,message:'Authentication failed. User not found.'});
+      }else if(usersdata){
+        var token = jwt.sign(usersdata, secret, { expiresInMinutes: 60*5 });
+        res.json({success:true,message:'valid User', token: token });
+      }
+    });
+   },
+   
+   userinfo:function(req,res){
+      var encodedProfile = req.token.split('.')[1];
+      var profile = JSON.parse(url_base64_decode(encodedProfile));
+      Users.findOne({'UserID':''+profile.UserID+''},{_id:0},function(err,usersdata){
+        if(err)
+          res.send(404,err);
+        if(!usersdata){
+          res.json({success:false,message:"Authentication is faild"});
+        }else if(usersdata){
+          res.json({success:true,message:"valid user",userData:usersdata});
+        }
+     });
+   }
+}
+
+//usercontroller.js//
+function url_base64_decode(str) {
+  var output = str.replace('-', '+').replace('_', '/');
+  switch (output.length % 4) {
+    case 0:
+      break;
+    case 2:
+      output += '==';
+      break;
+    case 3:
+      output += '=';
+      break;
+    default:
+      throw 'Illegal base64url string!';
+  }
+  return window.atob(output); 
+}
+
+
+MyStuffApp.controller('MyStuffAppUserController',['$scope','$http','$window',function($scope,$http,$window){
+   $scope.formData={};
+   $scope.Authenticate=function(){
+   	 $http.post('/authenticate',$scope.formData)
+   	  .success(function(data, status, headers, config){
+   	  	$scope.formData={};
+         if(data.success){
+            $window.sessionStorage.token = data.token;
+            $scope.isAuthenticated = true;
+            var encodedProfile = data.token.split('.')[1];
+            var profile = JSON.parse(url_base64_decode(encodedProfile));
+            $scope.welcome = 'Welcome ' + profile.FirstName + ' ' + profile.LastName;
+            $window.location = '/#/userhome'
+         }
+          
+          else {
+               delete $window.sessionStorage.token;
+               $scope.isAuthenticated = false;
+               $scope.error = data.message;
+               $scope.welcome = '';
+          }
+   	  })
+   	  .error(function(data){
+   	  	console.log(data);
+   	  });
+   };
+
+   $scope.findUserInfo=function(){
+      $http.get('/userapi/userinfo').
+        success(function(data){
+         $scope.welcome = 'Welcome ' + data.userData.FirstName + ' ' + data.userData.LastName ;
+      })
+      .error(function(data){
+        console.log(data);
+      });
+   }
+}]);
+
+//userroutes.js //
+var Usermoduleapi=require('../modules/Usermoduleapi');
+var authmiddleware=require("../middleware/authenticationmiddleware");
+
+module.exports=function(app){
+	app.get('/userapi/alluser',Usermoduleapi.getAllUser);
+	app.get('/userapi/finduser/:ID',Usermoduleapi.findUser);
+	app.post('/authenticate',Usermoduleapi.userLogin);
+	app.get('/userapi/userinfo',authmiddleware.ensureAuthorized,Usermoduleapi.userinfo);
+}
+
+
